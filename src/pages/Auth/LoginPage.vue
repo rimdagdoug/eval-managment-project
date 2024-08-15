@@ -1,44 +1,166 @@
 <template>
-    <div>
-      <h1>Login</h1>
-      <form @submit.prevent="login">
-        <input v-model="email" type="email" placeholder="Email" required/>
-        <input v-model="password" type="password" placeholder="Password" required/>
-        <button type="submit">Login</button>
-      </form>
+  <div class="container">
+    <div class="screen-1">
+      <!-- Logo Image -->
+      <img class="logo" src="@/assets/logo.png" alt="Logo" />
+
+      <!-- Champ Email -->
+      <div class="email">
+        <label for="email">Email Address</label>
+        <div class="sec-2">
+          <ion-icon name="mail-outline"></ion-icon>
+          <input v-model="email" type="email" name="email" placeholder="Username@gmail.com" required/>
+        </div>
+      </div>
+
+      <!-- Champ Password -->
+      <div class="password">
+        <label for="password">Password</label>
+        <div class="sec-2">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+          <input v-model="password" type="password" name="password" placeholder="············" required/>
+          <ion-icon class="show-hide" name="eye-outline"></ion-icon>
+        </div>
+      </div>
+
+      <!-- Bouton Login -->
+      <button class="login" @click.prevent="login">Login</button>
     </div>
-  </template>
-  
-  <script>
-  import { ref } from 'vue';
-  import { useAuthStore } from '@/stores/auth';
-  import { useRouter } from 'vue-router'; // Importation de useRouter
-  
-  export default {
-    setup() {
-      const email = ref('');
-      const password = ref('');
-      const authStore = useAuthStore();
-      const router = useRouter(); // Utilisation de useRouter pour accéder au routeur
-  
-      const login = async () => {
-        try {
-          await authStore.login(email.value, password.value);
-          if (authStore.isAuthenticated) {
-            // Utilisation de router pour rediriger
-            router.push('/home'); // Redirection vers la page d'accueil
-          }
-        } catch (error) {
-          console.error('Erreur lors de la connexion', error);
+  </div>
+</template>
+
+
+<script>
+import { ref } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import { useRouter } from 'vue-router';
+
+export default {
+  setup() {
+    const email = ref('');
+    const password = ref('');
+    const authStore = useAuthStore();
+    const router = useRouter();
+
+    const login = async () => {
+      try {
+        await authStore.login(email.value, password.value);
+        if (authStore.isAuthenticated) {
+          router.push('/home');
         }
-      };
-  
-      return {
-        email,
-        password,
-        login,
-      };
-    },
-  };
-  </script>
-  
+      } catch (error) {
+        console.error('Erreur lors de la connexion', error);
+      }
+    };
+
+    return {
+      email,
+      password,
+      login,
+    };
+  },
+};
+</script>
+
+<style scoped lang="scss">
+$p: hsl(0, 0%, 96%);
+$s: hsl(27, 90%, 63%);
+
+* {
+  font-family: 'Poppins';
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: hsl(218deg 50% 91%);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;  // Assure que le conteneur prend toute la hauteur de la page
+}
+
+.screen-1 {
+  background: $p;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  border-radius: 30px;
+  box-shadow: 0 0 2em hsl(231deg 62% 94%);
+  max-width: 400px;  // Limite la largeur maximale pour la carte
+  width: 100%;
+  box-sizing: border-box;
+  gap: 2em;
+
+  .logo {
+    margin-top: -3em;
+    align-self: center;  // Centre le logo horizontalement
+  }
+
+  .email,
+  .password {
+    background: hsl(0, 0%, 100%);
+    box-shadow: 0 0 2em hsl(15, 90%, 80%);
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    border-radius: 20px;
+    color: hsl(10, 66%, 76%);
+
+    input {
+      outline: none;
+      border: none;
+
+      &::placeholder {
+        color: hsl(0deg 0% 0%);
+        font-size: 0.9em;
+      }
+    }
+
+    ion-icon {
+      color: hsl(0deg 0% 30%);
+      margin-bottom: -0.2em;
+    }
+
+    .show-hide {
+      margin-right: -5em;
+    }
+  }
+
+  .login {
+    padding: 1em;
+    background: $s;
+    color: hsl(0, 0%, 100%);
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+  }
+
+  .footer {
+    display: flex;
+    font-size: 0.7em;
+    color: hsl(0deg 0% 37%);
+    gap: 14em;
+    padding-bottom: 10em;
+
+    span {
+      cursor: pointer;
+    }
+  }
+}
+
+button {
+  cursor: pointer;
+}
+</style>
