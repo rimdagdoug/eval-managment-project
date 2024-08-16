@@ -103,7 +103,7 @@ body {
   gap: 2em;
 
   .logo {
-    margin-top: -3em;
+    margin-top: -1em;
     align-self: center;  // Centre le logo horizontalement
   }
 
