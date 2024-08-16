@@ -13,16 +13,24 @@ export const useAuthStore = defineStore('auth', {
           email,
           password,
         });
-        this.token = response.data.token;
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('role', response.data.role);
-        this.user = {
-          firstname: response.data.firstname,
-          lastname: response.data.lastname,
-          role: response.data.role,
-        };
+        if (response.data) {
+          this.token = response.data.token; 
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('firstname', response.data.firstname);
+          localStorage.setItem('lastname', response.data.lastname);
+          localStorage.setItem('role', response.data.role);
+          this.user = {
+            firstname: response.data.firstname,
+            lastname: response.data.lastname,
+            role: response.data.role,
+          };
+          return response.data; 
+        } else {
+          throw new Error('Réponse invalide');
+        }
       } catch (error) {
-        console.error('Login Failed', error);
+        console.error('Échec de la connexion', error);
+        throw error;
       }
     },
     logout() {

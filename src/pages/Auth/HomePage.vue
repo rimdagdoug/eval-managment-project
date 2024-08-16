@@ -6,8 +6,7 @@
       <div class="main-body">
         <h2>Dashboard</h2>
         <div class="promo_card">
-          <h1>Welcome to EasyPay</h1>
-          <span>Lorem ipsum dolor sit amet.</span>
+          <h1>Welcome to Developer Performance Evaluation</h1>
           <button>Learn More</button>
         </div>
   
