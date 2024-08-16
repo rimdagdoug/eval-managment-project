@@ -44,8 +44,14 @@ export default {
 
     const login = async () => {
       try {
-        await authStore.login(email.value, password.value);
+        const response = await authStore.login(email.value, password.value);
+        // Vérifiez si l'utilisateur est authentifié
         if (authStore.isAuthenticated) {
+          // Stockez les informations dans localStorage
+          localStorage.setItem('token', response.token); 
+          localStorage.setItem('firstname', response.firstname);
+          localStorage.setItem('lastname', response.lastname); 
+          localStorage.setItem('role', response.role);
           router.push('/home');
         }
       } catch (error) {

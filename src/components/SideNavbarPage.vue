@@ -4,18 +4,10 @@
           <div class="side_navbar">
             <span>Main Menu</span>
             <a href="#" class="active">Dashboard</a>
-            <a href="#">Profile</a>
-            <a href="#">History</a>
-            <a href="#">Application</a>
-            <a href="#">My Account</a>
-            <a href="#">Documnets</a>
-    
-            <div class="links">
-              <span>Quick Link</span>
-              <a href="#">Paypal</a>
-              <a href="#">EasyPay</a>
-              <a href="#">SadaPay</a>
-            </div>
+            <a href="#">Skills</a>
+            <a href="#">Evaluation</a>
+            <a href="#">User</a>
+            <a href="#">Logout</a>
           </div>
         </nav>
     
