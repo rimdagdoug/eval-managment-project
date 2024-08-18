@@ -9,10 +9,7 @@
             <a v-if="isRH" href="#">User</a>
             <a href="#" @click.prevent="logout">Logout</a>
           </div>
-        </nav>
-    
-      
-          
+        </nav> 
 </template>
 
 <script>
