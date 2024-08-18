@@ -140,7 +140,7 @@
     import './skillsPage.css';
       export default {
       components: { NavbarPage, HeaderPage },
-        name: 'HomePage',
+        name: 'SkillPage',
         data() {
           return {
             drawer: false,
