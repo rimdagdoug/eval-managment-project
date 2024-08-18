@@ -140,7 +140,7 @@
     import './evalPage.css';
       export default {
       components: { NavbarPage, HeaderPage },
-        name: 'HomePage',
+        name: 'EvalPage',
         data() {
           return {
             drawer: false,
