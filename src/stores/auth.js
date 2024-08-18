@@ -3,8 +3,10 @@ import api from '../utils/api';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    user: null,
-    token: null,
+    user: localStorage.getItem('user') 
+      ? JSON.parse(localStorage.getItem('user')) 
+      : null,
+    token: localStorage.getItem('token') || null,
   }),
   actions: {
     async login(email, password) {
@@ -14,17 +16,15 @@ export const useAuthStore = defineStore('auth', {
           password,
         });
         if (response.data) {
-          this.token = response.data.token; 
-          localStorage.setItem('token', response.data.token);
-          localStorage.setItem('firstname', response.data.firstname);
-          localStorage.setItem('lastname', response.data.lastname);
-          localStorage.setItem('role', response.data.role);
+          this.token = response.data.token;
           this.user = {
             firstname: response.data.firstname,
             lastname: response.data.lastname,
             role: response.data.role,
           };
-          return response.data; 
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('user', JSON.stringify(this.user));
+          return response.data;
         } else {
           throw new Error('Réponse invalide');
         }
@@ -37,10 +37,11 @@ export const useAuthStore = defineStore('auth', {
       this.token = null;
       this.user = null;
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
       localStorage.removeItem('firstname');
       localStorage.removeItem('lastname');
       localStorage.removeItem('role');
-    },
+    }, 
   },
   getters: {
     isAuthenticated: (state) => !!state.token,
