@@ -5,7 +5,7 @@
     <div class="main-body">
       <h2>Skills</h2>
       <div class="promo_card">
-        <button>add skill</button>
+        <button @click="addSkill">Add Skill</button>
       </div>
       <div class="history_lists">
         <div class="list1">
@@ -42,21 +42,32 @@
 <script>
 import NavbarPage from '@/components/SideNavbarPage.vue';
 import HeaderPage from '@/components/HeaderPage.vue';
+import { onMounted, ref } from 'vue';
 import { useSkillsStore } from '@/stores/skills';
-import './skillsPage.css';
-
+import './skillsPage.css';import { useRouter } from 'vue-router';
 export default {
   components: { NavbarPage, HeaderPage },
   name: 'SkillPage',
   setup() {
     const skillsStore = useSkillsStore();
-    
-    // Fetch skills on component mount
-    skillsStore.fetchSkills();
+    const skills = ref([]);
+    const router = useRouter();
+
+    onMounted(async () => {
+      await skillsStore.fetchSkills();
+      skills.value = skillsStore.skills; 
+      console.log('Skills:', skills.value); 
+    });
+
+    const addSkill = () => {
+      router.push('/add-skill');
+    };
 
     return {
-      skills: skillsStore.skills,
+      skills,
+      addSkill,
     };
   },
 };
 </script>
+
