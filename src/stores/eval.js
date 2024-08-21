@@ -7,6 +7,7 @@ export const useEvalStore = defineStore('eval', {
   state: () => ({
     managers: [],
     developers: [],
+    evaluations: [],
   }),
   actions: {
     async fetchManagers() {
@@ -57,7 +58,18 @@ export const useEvalStore = defineStore('eval', {
           console.error('Error adding evaluation:', error.response ? error.response.data : error.message);
         }
       },
-    },
-    
+      async fetchEvaluations() {
+        const authStore = useAuthStore();
+        try {
+          const response = await axios.get('http://localhost:8080/evaluations', {
+            headers: {
+              Authorization: `Bearer ${authStore.token}`,
+            },
+          });
+          this.evaluations = response.data; // Stockez les évaluations dans le store
+        } catch (error) {
+          console.error('Error fetching evaluations:', error.response ? error.response.data : error.message);
+        }
+      },
   },
-);
+});
