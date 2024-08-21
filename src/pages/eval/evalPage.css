@@ -194,6 +194,19 @@
    color: hsl(28, 30%, 92%); /* Texte orange */
    border: 2px solid hsl(30, 19%, 94%); /* Bordure orange pour une meilleure visibilité */
  }
+ .add-note-btn {
+  background-color: hsl(27, 91%, 70%); /* Couleur du bouton */
+  color: white; /* Couleur du texte */
+  border: none; /* Pas de bordure */
+  padding: 6px 12px; /* Rembourrage */
+  border-radius: 5px; /* Coins arrondis */
+  cursor: pointer; /* Curseur en forme de main */
+  transition: background-color 0.3s; /* Transition pour le changement de couleur */
+}
+
+.add-note-btn:hover {
+  background-color: hsl(27, 81%, 60%); /* Couleur au survol */
+}
  
 
  
