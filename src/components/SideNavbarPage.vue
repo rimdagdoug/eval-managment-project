@@ -8,7 +8,7 @@
         <router-link to="/eval">Evaluation</router-link>
         <ul class="dropdown-menu">
           <li><router-link to="/eval">Evaluation</router-link></li>
-          <li><router-link to="/add-eval">Add Evaluation</router-link></li>
+          <li><router-link v-if="isRH" to="/add-eval">Add Evaluation</router-link></li>
         </ul>
       </div>
       <a v-if="isRH" href="#">User</a>

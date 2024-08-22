@@ -40,9 +40,9 @@
 </template>
 
 <script>
+import { computed, onMounted } from 'vue';
 import NavbarPage from '@/components/SideNavbarPage.vue';
 import HeaderPage from '@/components/HeaderPage.vue';
-import { onMounted } from 'vue';
 import { useEvalStore } from '@/stores/eval';
 import './evalPage.css';
 import { useRouter } from 'vue-router';
@@ -61,9 +61,9 @@ export default {
     const addEvall = () => {
       router.push('/add-eval');
     };
-
+    const evaluations = computed(() => evalStore.evaluations);
     return {
-      evaluations: evalStore.evaluations,
+      evaluations,
       addEvall,
     };
   },

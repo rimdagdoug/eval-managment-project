@@ -34,9 +34,9 @@
 </template>
 
 <script>
+import { ref, onMounted, computed } from 'vue';
 import NavbarPage from '@/components/SideNavbarPage.vue';
 import HeaderPage from '@/components/HeaderPage.vue';
-import { ref, onMounted } from 'vue';
 import { useEvalStore } from '@/stores/eval'; // Importez le store
 import './addPage.css';
 import { useRouter } from 'vue-router';
@@ -76,17 +76,16 @@ export default {
       }
     };
 
+    const managers = computed(() => evalStore.managers);
+    const developers = computed(() => evalStore.developers);
+    
     return {
       selectedManager,
       selectedDeveloper,
-      managers: evalStore.managers,
-      developers: evalStore.developers,
+      managers,
+      developers,
       submitEval,
     };
   },
 };
 </script>
-
-<style scoped>
-/* Ajoutez vos styles ici si nécessaire */
-</style>

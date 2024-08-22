@@ -38,9 +38,9 @@
   </template>
   
   <script>
+  import { ref, onMounted, computed } from 'vue';
   import NavbarPage from '@/components/SideNavbarPage.vue';
   import HeaderPage from '@/components/HeaderPage.vue';
-  import { ref, onMounted } from 'vue';
   import { useSkillsStore } from '@/stores/skills';
   import { useRouter } from 'vue-router';
   import './addPage.css';
@@ -68,15 +68,16 @@
         skillType: skillType.value,
         coefficient: coefficient.value,
     });
+
     router.push('/skills'); 
     };
-  
+    const skillTypes = computed(() => skillsStore.skillTypes);  
       return {
         name,
         description,
         skillType,
         coefficient,
-        skillTypes: skillsStore.skillTypes,
+        skillTypes,
         submitSkill,
       };
     },
