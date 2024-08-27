@@ -1,7 +1,9 @@
 <template>
   <header-page></header-page>
   <div class="container flex-start">
+    <div class="nav-bar-flex">
     <navbar-page></navbar-page>
+    </div>
     <div class="main-body">
       <h2>Evaluation</h2>
       <div class="promo_card">
@@ -29,7 +31,10 @@
                 <td>{{ evaluation.developer.firstname }} {{ evaluation.developer.lastname }}</td>
                 <td>{{ evaluation.status }}</td>
                 <td>{{ evaluation.finalNote }}</td>
-                <td><button class="add-note-btn">Add Note</button></td>
+                <td>
+                  <button class="add-note-btn" @click="showNote(evaluation.id)">Show Note</button>
+                  <button class="add-note-btn" @click="addNote(evaluation.id)">Add Note</button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -61,10 +66,22 @@ export default {
     const addEvall = () => {
       router.push('/add-eval');
     };
+
+    const showNote = (id) => {
+       router.push(`/show-note/${id}`); 
+    };
+
+    const addNote = (id) => {
+  router.push(`/add-note/${id}`); 
+};
+    
     const evaluations = computed(() => evalStore.evaluations);
+    console.log(evaluations.value);
     return {
       evaluations,
       addEvall,
+      showNote,
+      addNote,
     };
   },
 };

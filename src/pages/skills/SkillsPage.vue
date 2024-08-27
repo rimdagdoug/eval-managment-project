@@ -1,7 +1,9 @@
 <template>
   <header-page></header-page>
   <div class="container flex-start">
+    <div class="nav-bar-flex">
     <navbar-page></navbar-page>
+  </div>
     <div class="main-body">
       <h2>Skills</h2>
       <div class="promo_card">
@@ -56,7 +58,6 @@ export default {
     onMounted(async () => {
       await skillsStore.fetchSkills();
       skills.value = skillsStore.skills; 
-      console.log('Skills:', skills.value); 
     });
 
     const addSkill = () => {

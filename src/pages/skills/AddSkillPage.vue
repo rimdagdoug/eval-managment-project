@@ -1,7 +1,9 @@
 <template>
     <header-page></header-page>
     <div class="container flex-start">
-      <navbar-page></navbar-page>
+      <div class="nav-bar-flex">
+        <navbar-page></navbar-page>
+      </div>
       <div class="main-body">
         <h2 class="text-white text-center mb-4">Add Skills</h2> <!-- Ajout de classes pour le style -->
         <div class="card">
