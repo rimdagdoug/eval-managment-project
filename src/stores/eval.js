@@ -8,6 +8,7 @@ export const useEvalStore = defineStore('eval', {
     managers: [],
     developers: [],
     evaluations: [],
+
   }),
   actions: {
     async fetchManagers() {
@@ -69,6 +70,32 @@ export const useEvalStore = defineStore('eval', {
           this.evaluations = response.data; // Stockez les évaluations dans le store
         } catch (error) {
           console.error('Error fetching evaluations:', error.response ? error.response.data : error.message);
+        }
+      },
+      async fetchEvaluationById(id) {
+        const authStore = useAuthStore();
+        try {
+          const response = await axios.get(`http://localhost:8080/result/${id}`, {
+            headers: {
+              Authorization: `Bearer ${authStore.token}`,
+            },
+          });
+          this.evaluation = response.data; 
+        } catch (error) {
+          console.error('Error fetching evaluation:', error.response ? error.response.data : error.message);
+        }
+      },
+      async addNote(noteData) {
+        const authStore = useAuthStore();
+        try {
+          const response = await axios.put('http://localhost:8080/result/noteInput', noteData, {
+            headers: {
+              Authorization: `Bearer ${authStore.token}`,
+            },
+          });
+          console.log(response);
+        } catch (error) {
+          console.error('Error adding skill:', error.response ? error.response.data : error.message);
         }
       },
   },

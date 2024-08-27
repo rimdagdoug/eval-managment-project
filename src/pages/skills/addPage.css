@@ -54,3 +54,8 @@
   .btn:hover {
     background-color: hsl(27, 90%, 53%);
   }
+
+  .nav-bar-flex{
+    display: flex;
+    justify-content: center;
+  }

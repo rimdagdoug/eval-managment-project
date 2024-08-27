@@ -19,6 +19,7 @@
    justify-content: space-between;
    height: 60px;
    padding: 20px;
+
    background: #fff;
  }
  .logo{
@@ -27,6 +28,7 @@
  }
  .flex-start{
    justify-content: start !important;
+   min-height: 100vh
  }
  .logo a{
    color:  hsl(27, 90%, 63%);
@@ -124,6 +126,7 @@
  .main-body{
    width: 70%;
    padding: 1rem;
+   margin-left: 250px;
  }
  .promo_card{
    width: 100%;
@@ -195,5 +198,8 @@
    border: 2px solid hsl(30, 19%, 94%); /* Bordure orange pour une meilleure visibilité */
  }
  
-
+ .nav-bar-flex{
+  display: flex;
+  justify-content: center;
+}
  

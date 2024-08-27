@@ -1,7 +1,6 @@
 <template>
   <nav>
     <div class="side_navbar">
-      <span>Main Menu</span>
       <router-link to="/home" class="active">Dashboard</router-link>
       <router-link v-if="isRH" to="/skills">Skills</router-link>
       <div class="dropdown">
@@ -11,7 +10,7 @@
           <li><router-link v-if="isRH" to="/add-eval">Add Evaluation</router-link></li>
         </ul>
       </div>
-      <a v-if="isRH" href="#">User</a>
+      <router-link v-if="isRH" to="/register">User</router-link>
       <a href="#" @click.prevent="logout">Logout</a>
     </div>
   </nav>
@@ -72,5 +71,15 @@ export default {
 
 .dropdown:hover .dropdown-menu {
   display: block;
+}
+
+nav {
+  position: fixed;
+  left: 0;
+
+}
+
+.side_navbar {
+  padding: 20px; /* Ajoutez un peu de padding pour l'espace intérieur */
 }
 </style>

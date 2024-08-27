@@ -281,6 +281,7 @@ import HeaderPage from '@/components/HeaderPage.vue';
   .main-body{
     width: 70%;
     padding: 1rem;
+    margin-left: 250px;
   }
   .promo_card{
     width: 100%;
