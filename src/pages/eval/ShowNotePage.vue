@@ -1,7 +1,6 @@
 <template>
     <header-page></header-page>
-    <div class="container flex-start">
-      <navbar-page></navbar-page>
+    <div class="container">
       <div class="main-body">
         <h2>Evaluation Details</h2>
         <div class="promo_card">
@@ -36,14 +35,13 @@
   
   <script>
   import { computed, onMounted } from 'vue';
-  import NavbarPage from '@/components/SideNavbarPage.vue';
   import HeaderPage from '@/components/HeaderPage.vue';
   import { useEvalStore } from '@/stores/eval';
   import { useRoute } from 'vue-router';
   import './evalPage.css';
   
   export default {
-    components: { NavbarPage, HeaderPage },
+    components: { HeaderPage },
     name: 'ShowNotePage', 
     setup() {
       const evalStore = useEvalStore();

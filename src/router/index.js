@@ -1,4 +1,3 @@
-import HomePage from '@/pages/Auth/HomePage.vue';
 import LoginPage from '@/pages/Auth/LoginPage.vue';
 import RegisterPage from '@/pages/Auth/RegisterPage.vue';
 import AddEvalPage from '@/pages/eval/AddEvalPage.vue';
@@ -14,7 +13,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
     { path: '/', redirect: '/login' },
-    { path: '/home', component: HomePage},
     { path: '/login', component: LoginPage },
     {path: '/skills',component: SkillsPage},
     {path: '/eval',component: EvalPages},
@@ -38,7 +36,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
     
-    const authRequired = ['/home', '/skills', '/eval'];
+    const authRequired = [ '/skills', '/eval'];
 
     if (authRequired.includes(to.path) && !authStore.isAuthenticated) {
         next('/login');

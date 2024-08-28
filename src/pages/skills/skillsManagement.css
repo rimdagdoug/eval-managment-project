@@ -57,8 +57,8 @@
   justify-content: center;
   }
   .main-body {
-  width: 100%;
-  max-width: 600px;
+    width: 100%;
+    max-width: 1000px;
   }
   h2 {
   font-size: 1.5rem;

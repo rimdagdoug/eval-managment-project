@@ -26,10 +26,7 @@
    display: flex;
    align-items: center;
  }
- .flex-start{
-   justify-content: start !important;
-   min-height: 20vh
- }
+
  .logo a{
    color:  hsl(27, 90%, 63%);
    font-size: 18px;
@@ -124,9 +121,9 @@
  
  /* Main Body Section */
  .main-body{
-   width: 70%;
+  width: 100%;
+  max-width: 1000px;
    padding: 1rem;
-   margin-left: 250px;
  }
  .promo_card{
    width: 100%;

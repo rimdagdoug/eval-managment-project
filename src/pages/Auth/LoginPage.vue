@@ -29,7 +29,6 @@
   </div>
 </template>
 
-
 <script>
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
@@ -52,7 +51,7 @@ export default {
           localStorage.setItem('firstname', response.firstname);
           localStorage.setItem('lastname', response.lastname); 
           localStorage.setItem('role', response.role);
-          router.push('/home');
+          router.push('/eval');
         }
       } catch (error) {
         console.error('Erreur lors de la connexion', error);
@@ -116,7 +115,7 @@ body {
   .email,
   .password {
     background: hsl(0, 0%, 100%);
-    box-shadow: 0 0 2em hsl(15, 90%, 80%);
+    //box-shadow: 0 0 2em hsl(15, 90%, 80%);
     padding: 1em;
     display: flex;
     flex-direction: column;
@@ -129,7 +128,7 @@ body {
       border: none;
 
       &::placeholder {
-        color: hsl(0deg 0% 0%);
+        color: hsl(0, 0%, 70%); // Couleur modifiée pour un gris clair
         font-size: 0.9em;
       }
     }

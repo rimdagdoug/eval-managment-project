@@ -1,9 +1,6 @@
 <template>
   <header-page></header-page>
-  <div class="container flex-start">
-    <div class="nav-bar-flex">
-      <navbar-page></navbar-page>
-    </div>
+  <div class="container">
     <div class="main-body">
       <div class="promo_card">
         <h1>Evaluation: Enter Notes        </h1>
@@ -38,15 +35,14 @@
 
   
   <script>
-  import NavbarPage from '@/components/SideNavbarPage.vue';
   import HeaderPage from '@/components/HeaderPage.vue';
   import { ref, onMounted, watchEffect } from 'vue';
   import { useEvalStore } from '@/stores/eval';
   import { useRoute } from 'vue-router';
-import router from '@/router';
+  import router from '@/router';
   
   export default {
-    components: { NavbarPage, HeaderPage },
+    components: { HeaderPage },
     name: 'AddNotePage',
     setup() {
       const evalStore = useEvalStore();
