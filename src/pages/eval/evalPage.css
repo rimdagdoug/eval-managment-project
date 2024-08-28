@@ -19,15 +19,14 @@
    justify-content: space-between;
    height: 60px;
    padding: 20px;
+
    background: #fff;
  }
  .logo{
    display: flex;
    align-items: center;
  }
- .flex-start{
-   justify-content: start !important;
- }
+
  .logo a{
    color:  hsl(27, 90%, 63%);
    font-size: 18px;
@@ -78,7 +77,7 @@
    background: hsl(27, 90%, 63%);
  }
  .container{
-   margin-top: 10px;
+   margin-top: 5px;
    display: flex;
    justify-content: space-between;
  }
@@ -122,9 +121,9 @@
  
  /* Main Body Section */
  .main-body{
-   width: 70%;
+  width: 100%;
+  max-width: 1000px;
    padding: 1rem;
-   margin-left: 250px;
  }
  .promo_card{
    width: 100%;
@@ -187,6 +186,8 @@
    align-items: center;
    margin-bottom: 1rem;
  }
+
+ 
  .promo_card button {
    display: block;
    padding: 6px 12px;
@@ -195,19 +196,74 @@
    color: hsl(28, 30%, 92%); /* Texte orange */
    border: 2px solid hsl(30, 19%, 94%); /* Bordure orange pour une meilleure visibilité */
  }
- .add-note-btn {
-  background-color: hsl(27, 91%, 70%); /* Couleur du bouton */
-  color: white; /* Couleur du texte */
-  border: none; /* Pas de bordure */
-  padding: 6px 12px; /* Rembourrage */
-  border-radius: 5px; /* Coins arrondis */
-  cursor: pointer; /* Curseur en forme de main */
-  transition: background-color 0.3s; /* Transition pour le changement de couleur */
+ 
+ .nav-bar-flex{
+  display: flex;
+  justify-content: center;
+}
+/* Styles pour la pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
-.add-note-btn:hover {
-  background-color: hsl(27, 81%, 60%); /* Couleur au survol */
+.pagination button {
+  background-color:  hsl(27, 91%, 70%);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
 }
- 
 
- 
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  margin: 0 10px;
+  line-height: 32px;
+}
+.action-buttons {
+  display: flex; 
+  gap: 5px; 
+}
+.edit-button {
+  background-color:hsl(28, 30%, 92%);  
+  padding: 6px 12px; 
+  cursor: pointer; 
+  border-radius: 4px; 
+  color: hsl(28, 97%, 50%); 
+  border: 2px solid  hsl(28, 97%, 50%); 
+}
+.delete-button {
+  background-color:hsl(28, 30%, 92%);  
+  padding: 6px 12px; 
+  cursor: pointer; 
+  border-radius: 4px; 
+  color: hsl(0, 97%, 50%); 
+  border: 2px solid  hsl(0, 97%, 50%);
+}
+.button-container {
+  display: flex; 
+  justify-content: flex-end; 
+  margin-bottom: 20px; 
+}
+.add-skill-button {
+  background-color:hsl(28, 30%, 92%); 
+  color: #37fb5e; 
+  border: none; 
+  padding: 10px 20px; 
+  cursor: pointer; 
+  border-radius: 4px; 
+  font-size: 16px; 
+  border: 2px solid  #37fb5e;
+}
+

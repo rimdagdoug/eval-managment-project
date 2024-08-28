@@ -1,9 +1,6 @@
 <template>
   <header-page></header-page>
-  <div class="container flex-start">
-    <div class="nav-bar-flex">
-    <navbar-page></navbar-page>
-  </div>
+  <div class="container">
     <div class="main-body">
       <h2 class="text-white text-center mb-4">Add Eval</h2>
       <div class="card">
@@ -37,14 +34,13 @@
 
 <script>
 import { ref, onMounted, computed } from 'vue';
-import NavbarPage from '@/components/SideNavbarPage.vue';
 import HeaderPage from '@/components/HeaderPage.vue';
 import { useEvalStore } from '@/stores/eval'; 
 import './addPage.css';
 import { useRouter } from 'vue-router';
 
 export default {
-  components: { NavbarPage, HeaderPage },
+  components: { HeaderPage },
   name: 'AddEvalPage',
   setup() {
     const evalStore = useEvalStore(); 

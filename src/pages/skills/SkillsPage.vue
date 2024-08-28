@@ -1,15 +1,16 @@
 <template>
   <header-page></header-page>
-  <div class="container flex-start">
-    <div class="nav-bar-flex">
-      <navbar-page></navbar-page>
-    </div>
+  <div class="container">
+
     <div class="main-body">
-      <div class="button-container">
-        <button class="add-skill-button" @click="addSkill">Add Skill</button>
+      <div class="promo_card">
+        <button  @click="addSkill">Add Skill</button>
       </div>
       <div class="history_lists">
         <div class="list1">
+          <div class="row">
+            <h4></h4>
+          </div>
           <table>
             <thead>
               <tr>
@@ -60,7 +61,6 @@
 </template>
 
 <script>
-import NavbarPage from '@/components/SideNavbarPage.vue';
 import HeaderPage from '@/components/HeaderPage.vue';
 import { onMounted, ref, computed } from 'vue';
 import { useSkillsStore } from '@/stores/skills';
@@ -69,7 +69,7 @@ import { toast } from 'vue3-toastify';
 import './skillsPage.css';
 
 export default {
-  components: { NavbarPage, HeaderPage },
+  components: { HeaderPage },
   name: 'SkillPage',
   setup() {
     const skillsStore = useSkillsStore();

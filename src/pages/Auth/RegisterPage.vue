@@ -1,8 +1,7 @@
 <template>
-    <div class="container">
+  <header-page></header-page>
+  <div class="container">
       <div class="screen-1">
-        <img class="logo" src="@/assets/logo.png" alt="Logo" />
-  
         <div class="name-fields">
           <div class="firstname">
             <label for="firstname">First Name</label>
@@ -54,10 +53,12 @@
   </template>
   
   <script>
+  import HeaderPage from '@/components/HeaderPage.vue';
   import { useAuthStore } from '@/stores/auth';
   import { useSkillsStore } from '@/stores/skills';
   
   export default {
+    components: { HeaderPage },
     data() {
       return {
         firstname: '',
@@ -109,14 +110,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: hsl(218deg 50% 91%);
+    background: hsl(240, 6%, 97%);
   }
   
   .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 150vh;
+    height: 120vh;
   }
   
   .screen-1 {
@@ -125,7 +126,7 @@
     display: flex;
     flex-direction: column;
     border-radius: 30px;
-    box-shadow: 0 0 2em hsl(231deg 62% 94%);
+    //box-shadow: 0 0 2em hsl(231deg 62% 94%);
     max-width: 600px;
     width: 100%;
     box-sizing: border-box;
@@ -143,23 +144,24 @@
       .firstname, .lastname {
         flex: 1;
         background: hsl(0, 0%, 100%);
-        box-shadow: 0 0 2em hsl(15, 90%, 80%);
+       // box-shadow: 0 0 2em hsl(15, 90%, 80%);
         padding: 1em;
         display: flex;
         flex-direction: column;
         gap: 0.5em;
         border-radius: 20px;
-        color: hsl(10, 66%, 76%);
+        color: hsl(10, 66%, 72%);
   
         input {
           outline: none;
           border: none;
-  
+    
           &::placeholder {
-            color: hsl(0deg 0% 0%);
+            color: hsl(0, 0%, 70%); // Couleur modifiée pour un gris clair
             font-size: 0.9em;
           }
         }
+    
   
         ion-icon {
           color: hsl(0deg 0% 30%);
@@ -172,7 +174,7 @@
     .password,
     .role {
       background: hsl(0, 0%, 100%);
-      box-shadow: 0 0 2em hsl(15, 90%, 80%);
+      //box-shadow: 0 0 2em hsl(15, 90%, 80%);
       padding: 1em;
       display: flex;
       flex-direction: column;
@@ -185,7 +187,7 @@
         border: none;
   
         &::placeholder {
-          color: hsl(0deg 0% 0%);
+          color:  hsl(0, 0%, 70%);
           font-size: 0.9em;
         }
       }

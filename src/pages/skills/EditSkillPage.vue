@@ -1,9 +1,6 @@
 <template>
     <header-page></header-page>
-    <div class="container flex-start">
-      <div class="nav-bar-flex">
-        <navbar-page></navbar-page>
-      </div>
+    <div class="container">
       <div class="main-body">
         <h2 class="text-white text-center mb-4">Edit Skill</h2> <!-- Ajout de classes pour le style -->
         <div class="card">
@@ -41,14 +38,13 @@
   
   <script>
   import { computed, onMounted } from 'vue';
-  import NavbarPage from '@/components/SideNavbarPage.vue';
   import HeaderPage from '@/components/HeaderPage.vue';
   import { useSkillsStore } from '@/stores/skills';
   import { useRoute, useRouter } from 'vue-router';
   import './skillsManagement.css';
   
   export default {
-    components: { NavbarPage, HeaderPage },
+    components: {HeaderPage },
     name: 'EditSkillPage',
     setup() {
       const skillsStore = useSkillsStore();
