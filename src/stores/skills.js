@@ -75,6 +75,20 @@ export const useSkillsStore = defineStore('skills', {
         console.error('Error fetching skill:', error.response ? error.response.data : error.message);
         throw error; 
       }
+    },
+    async deleteSkill(skillId) {
+      const authStore = useAuthStore();
+      try {
+        const response = await axios.delete(`http://localhost:8080/skills/${skillId}`, {
+          headers: {
+            Authorization: `Bearer ${authStore.token}`,
+          },
+        });
+        return response.data;
+      } catch (error) {
+        console.log('Error fetching skill');
+        throw error; 
+      }
     }
     },
   },
