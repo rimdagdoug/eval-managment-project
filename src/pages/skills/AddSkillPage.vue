@@ -1,86 +1,170 @@
 <template>
-    <header-page></header-page>
-    <div class="container">
+  <header-page></header-page>
+  <div class="container">
+    <div class="main-body">
+      <h2 class="text-white text-center mb-4">Add Skills</h2>
+      <div class="card">
+        <div class="card-body">
+          <form @submit.prevent="submitSkill">
+            <div class="mb-3">
+              <label for="name" class="form-label">Name:</label>
+              <input 
+                id="name" 
+                v-model="name" 
+                @blur="validateField('name')" 
+                class="form-control" 
+              />
+              <p v-if="errors.name" class="my-2 text-red-800">{{ errors.name }}</p>
+            </div>
 
-      <div class="main-body">
-        <h2 class="text-white text-center mb-4">Add Skills</h2> <!-- Ajout de classes pour le style -->
-        <div class="card">
-          <div class="card-body">
-            <form @submit.prevent="submitSkill">
-              <div class="mb-3">
-                <label for="name" class="form-label">Name:</label>
-                <input id="name" v-model="name" required class="form-control" />
-              </div>
-  
-              <div class="mb-3">
-                <label for="description" class="form-label">Description:</label>
-                <textarea id="description" v-model="description" required class="form-control"></textarea>
-              </div>
-  
-              <div class="mb-3">
-                <label for="skillType" class="form-label">Skill Type:</label>
-                <select id="skillType" v-model="skillType" required class="form-select">
-                  <option v-for="type in skillTypes" :key="type" :value="type">{{ type }}</option>
-                </select>
-              </div>
-  
-              <div class="mb-3">
-                <label for="coefficient" class="form-label">Coefficient:</label>
-                <input id="coefficient" type="number" step="0.01" v-model="coefficient" required class="form-control" />
-              </div>
-  
-              <button type="submit" class="btn">Add Skill</button> <!-- L'écriture du bouton est déjà en blanc -->
-            </form>
-          </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description:</label>
+              <textarea 
+                id="description" 
+                v-model="description" 
+                @blur="validateField('description')" 
+                class="form-control"
+              ></textarea>
+              <p v-if="errors.description" class="my-2 text-red-800">{{ errors.description }}</p>
+            </div>
+
+            <div class="mb-3">
+              <label for="skillType" class="form-label">Skill Type:</label>
+              <select 
+                id="skillType" 
+                v-model="skillType" 
+                @blur="validateField('skillType')" 
+                class="form-select"
+              >
+                <option v-for="type in skillTypes" :key="type" :value="type">{{ type }}</option>
+              </select>
+              <p v-if="errors.skillType" class="my-2 text-red-800">{{ errors.skillType }}</p>
+            </div>
+
+            <div class="mb-3">
+              <label for="coefficient" class="form-label">Coefficient:</label>
+              <input 
+                id="coefficient" 
+                type="number" 
+                step="0.01" 
+                v-model="coefficient" 
+                @blur="validateField('coefficient')" 
+                class="form-control" 
+              />
+              <p v-if="errors.coefficient" class="my-2 text-red-800">{{ errors.coefficient }}</p>
+            </div>
+
+            <button 
+              type="submit" 
+              class="btn" 
+            >
+              Add Skill
+            </button>
+          </form>
         </div>
       </div>
     </div>
-  </template>
-  
-  <script>
-  import { ref, onMounted, computed } from 'vue';
-  import HeaderPage from '@/components/HeaderPage.vue';
-  import { useSkillsStore } from '@/stores/skills';
-  import { useRouter } from 'vue-router';
-  import './skillsManagement.css';
-  
-  export default {
-    components: { HeaderPage },
-    name: 'AddSkillPage',
-    setup() {
-      const skillsStore = useSkillsStore();
-      const router = useRouter();
-  
-      const name = ref('');
-      const description = ref('');
-      const skillType = ref('');
-      const coefficient = ref(1.0);
-  
-      onMounted(async () => {
-        await skillsStore.fetchSkillTypes();
-      });
-  
-      const submitSkill = async () => {
-        await skillsStore.addSkill({
-        name: name.value,
-        description: description.value,
-        skillType: skillType.value,
-        coefficient: coefficient.value,
+  </div>
+</template>
+
+<script>
+import { onMounted, computed } from 'vue';
+import HeaderPage from '@/components/HeaderPage.vue';
+import { useSkillsStore } from '@/stores/skills';
+import { useRouter } from 'vue-router';
+import './skillsManagement.css';
+import { useField, useForm } from 'vee-validate';
+import * as Yup from 'yup';
+
+export default {
+  components: { HeaderPage },
+  name: 'AddSkillPage',
+  setup() {
+    const skillsStore = useSkillsStore();
+    const router = useRouter();
+
+    // Validation schema
+    const validationSchema = Yup.object().shape({
+      name: Yup.string().required('Name is required'),
+      description: Yup.string().required('Description is required'),
+      skillType: Yup.string().required('Skill Type is required'),
+      coefficient: Yup.number().required('Coefficient is required').positive('Coefficient must be positive'),
     });
 
-    router.push('/skills'); 
+    // Form setup
+    const { handleSubmit, errors, isSubmitting, isValid } = useForm({
+      validationSchema,
+    });
+
+    const { value: name, validate: validateName } = useField('name');
+    const { value: description, validate: validateDescription } = useField('description');
+    const { value: skillType, validate: validateSkillType } = useField('skillType');
+    const { value: coefficient, validate: validateCoefficient } = useField('coefficient');
+
+    // Fetch skill types on mount
+    onMounted(async () => {
+      await skillsStore.fetchSkillTypes();
+    });
+
+    // Validate field on blur
+    const validateField = async (field) => {
+      switch (field) {
+        case 'name':
+          await validateName();
+          break;
+        case 'description':
+          await validateDescription();
+          break;
+        case 'skillType':
+          await validateSkillType();
+          break;
+        case 'coefficient':
+          await validateCoefficient();
+          break;
+      }
     };
-    const skillTypes = computed(() => skillsStore.skillTypes);  
-      return {
-        name,
-        description,
-        skillType,
-        coefficient,
-        skillTypes,
-        submitSkill,
-      };
-    },
-  };
-  </script>
-  
-  
+
+    // Submit skill function
+    const submitSkill = handleSubmit(async () => {
+      try {
+        await skillsStore.addSkill({
+          name: name.value,
+          description: description.value,
+          skillType: skillType.value,
+          coefficient: coefficient.value,
+        });
+        router.push('/skills');
+      } catch (error) {
+        console.error('Error adding skill:', error);
+      }
+    });
+
+    // Computed property for skill types
+    const skillTypes = computed(() => skillsStore.skillTypes);
+
+    return {
+      name,
+      description,
+      skillType,
+      coefficient,
+      skillTypes,
+      submitSkill,
+      errors,
+      validateField,
+      isValid,
+      isSubmitting,
+    };
+  },
+};
+</script>
+
+<style scoped>
+.my-2 {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.text-red-800 {
+  color: #9b2c2c !important;
+}
+</style>
