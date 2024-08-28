@@ -189,6 +189,8 @@
    align-items: center;
    margin-bottom: 1rem;
  }
+
+ 
  .promo_card button {
    display: block;
    padding: 6px 12px;
@@ -231,5 +233,40 @@
 .pagination span {
   margin: 0 10px;
   line-height: 32px;
+}
+.action-buttons {
+  display: flex; 
+  gap: 5px; 
+}
+.edit-button {
+  background-color:hsl(28, 30%, 92%);  
+  padding: 6px 12px; 
+  cursor: pointer; 
+  border-radius: 4px; 
+  color: hsl(28, 97%, 50%); 
+  border: 2px solid  hsl(28, 97%, 50%); 
+}
+.delete-button {
+  background-color:hsl(28, 30%, 92%);  
+  padding: 6px 12px; 
+  cursor: pointer; 
+  border-radius: 4px; 
+  color: hsl(0, 97%, 50%); 
+  border: 2px solid  hsl(0, 97%, 50%);
+}
+.button-container {
+  display: flex; 
+  justify-content: flex-end; 
+  margin-bottom: 20px; 
+}
+.add-skill-button {
+  background-color:hsl(28, 30%, 92%); 
+  color: #37fb5e; 
+  border: none; 
+  padding: 10px 20px; 
+  cursor: pointer; 
+  border-radius: 4px; 
+  font-size: 16px; 
+  border: 2px solid  #37fb5e;
 }
 

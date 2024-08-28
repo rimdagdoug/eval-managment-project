@@ -5,9 +5,8 @@
       <navbar-page></navbar-page>
     </div>
     <div class="main-body">
-      <h2>Skills</h2>
-      <div class="promo_card">
-        <button @click="addSkill">Add Skill</button>
+      <div class="button-container">
+        <button class="add-skill-button" @click="addSkill">Add Skill</button>
       </div>
       <div class="history_lists">
         <div class="list1">
@@ -18,15 +17,21 @@
                 <th>Description</th>
                 <th>Skill Type</th>
                 <th>Coefficient</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(skill) in paginatedSkills" :key="skill.id">
-              
                 <td>{{ skill.name }}</td>
                 <td>{{ skill.description }}</td>
                 <td>{{ skill.skillType }}</td>
                 <td>{{ skill.coefficient }}</td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="edit-button" @click="editSkill(skill.id)">Edit</button>
+                    <button class="delete-button">Delete</button>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -91,6 +96,10 @@ export default {
       }
     };
 
+    const editSkill = (skillId) => {
+      router.push(`/skills/${skillId}/edit`);
+    };
+
     return {
       skills,
       addSkill,
@@ -99,6 +108,7 @@ export default {
       totalPages,
       nextPage,
       prevPage,
+      editSkill,
     };
   },
 };
