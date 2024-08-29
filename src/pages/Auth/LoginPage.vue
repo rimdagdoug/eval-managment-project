@@ -213,6 +213,6 @@ button {
 }
 
 .text-red-800 {
-  color: #9b2c2c !important;
+  color: #f00505 !important;
 }
 </style>

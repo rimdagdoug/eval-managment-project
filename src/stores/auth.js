@@ -42,19 +42,7 @@ export const useAuthStore = defineStore('auth', {
           password,
           role,
         });
-        if (response.data) {
-          this.token = response.data.token;
-          this.user = {
-            firstname: response.data.firstname,
-            lastname: response.data.lastname,
-            role: response.data.role,
-          };
-          localStorage.setItem('token', response.data.token);
-          localStorage.setItem('user', JSON.stringify(this.user));
-          return response.data;
-        } else {
-          throw new Error('Réponse invalide');
-        }
+        return response;
       } catch (error) {
         console.error('Échec de l\'enregistrement', error);
         throw error;
