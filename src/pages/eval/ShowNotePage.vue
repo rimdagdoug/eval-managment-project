@@ -2,13 +2,15 @@
     <header-page></header-page>
     <div class="container">
       <div class="main-body">
-        <h2>Evaluation Details</h2>
         <div class="promo_card">
-          <h1>Evaluation:</h1>
+          <h2>Evaluation:</h2>
         </div>
   
         <div class="history_lists">
           <div class="list1">
+            <div class="row">
+              <h4></h4>
+            </div>
             <table>
               <thead>
                 <tr>

@@ -28,8 +28,10 @@
                 <td>{{ evaluation.status }}</td>
                 <td>{{ evaluation.finalNote }}</td>
                 <td>
+                  <div class="action-buttons">
                   <button class="add-note-btn" @click="showNote(evaluation.id)">Show Note</button>
                   <button class="add-note-btn" @click="addNote(evaluation.id)">Add Note</button>
+                  </div>
                 </td>
               </tr>
             </tbody>

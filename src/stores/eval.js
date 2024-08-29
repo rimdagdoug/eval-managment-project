@@ -85,6 +85,19 @@ export const useEvalStore = defineStore('eval', {
           console.error('Error fetching evaluation:', error.response ? error.response.data : error.message);
         }
       },
+      async getFinalScore(id) {
+        const authStore = useAuthStore();
+        try {
+          const response = await axios.get(`http://localhost:8080/result/updateFinalScore?evaluationId=${id}`, {
+            headers: {
+              Authorization: `Bearer ${authStore.token}`,
+            },
+          });
+          return response.data; 
+        } catch (error) {
+          console.error('Error fetching evaluation:', error.response ? error.response.data : error.message);
+        }
+      },
       async addNote(noteData) {
         const authStore = useAuthStore();
         try {
@@ -93,7 +106,7 @@ export const useEvalStore = defineStore('eval', {
               Authorization: `Bearer ${authStore.token}`,
             },
           });
-          console.log(response);
+          return response;
         } catch (error) {
           console.error('Error adding skill:', error.response ? error.response.data : error.message);
         }
