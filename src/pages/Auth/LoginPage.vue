@@ -9,7 +9,15 @@
         <label for="email">Email Address</label>
         <div class="sec-2">
           <ion-icon name="mail-outline"></ion-icon>
-          <input v-model="email" type="email" name="email" placeholder="Username@gmail.com" required/>
+          <input 
+            id="email" 
+            v-model="email" 
+            @blur="validateField('email')" 
+            type="email" 
+            name="email" 
+            placeholder="Username@gmail.com"
+          />
+          <p v-if="errors.email" class="my-2 text-red-800">{{ errors.email }}</p>
         </div>
       </div>
 
@@ -18,8 +26,16 @@
         <label for="password">Password</label>
         <div class="sec-2">
           <ion-icon name="lock-closed-outline"></ion-icon>
-          <input v-model="password" type="password" name="password" placeholder="············" required/>
+          <input 
+            id="password" 
+            v-model="password" 
+            @blur="validateField('password')" 
+            type="password" 
+            name="password" 
+            placeholder="············" 
+          />
           <ion-icon class="show-hide" name="eye-outline"></ion-icon>
+          <p v-if="errors.password" class="my-2 text-red-800">{{ errors.password }}</p>
         </div>
       </div>
 
@@ -30,37 +46,60 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { useField, useForm } from 'vee-validate';
+import * as Yup from 'yup';
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 
 export default {
   setup() {
-    const email = ref('');
-    const password = ref('');
     const authStore = useAuthStore();
     const router = useRouter();
 
-    const login = async () => {
+    // Schema de validation avec Yup
+    const validationSchema = Yup.object().shape({
+      email: Yup.string().email('Please enter a valid email address').required('Email is required'),
+      password: Yup.string().required('Password is required'),
+    });
+
+    // Utilisation de vee-validate pour les champs
+    const { handleSubmit, errors } = useForm({ validationSchema });
+    const { value: email, validate: validateEmail } = useField('email');
+    const { value: password, validate: validatePassword } = useField('password');
+
+    // Fonction de validation de champ sur blur
+    const validateField = async (field) => {
+      switch (field) {
+        case 'email':
+          await validateEmail();
+          break;
+        case 'password':
+          await validatePassword();
+          break;
+      }
+    };
+
+    // Soumission du formulaire
+    const login = handleSubmit(async () => {
       try {
         const response = await authStore.login(email.value, password.value);
-        // Vérifiez si l'utilisateur est authentifié
         if (authStore.isAuthenticated) {
-          // Stockez les informations dans localStorage
-          localStorage.setItem('token', response.token); 
+          localStorage.setItem('token', response.token);
           localStorage.setItem('firstname', response.firstname);
-          localStorage.setItem('lastname', response.lastname); 
+          localStorage.setItem('lastname', response.lastname);
           localStorage.setItem('role', response.role);
           router.push('/eval');
         }
       } catch (error) {
         console.error('Erreur lors de la connexion', error);
       }
-    };
+    });
 
     return {
       email,
       password,
+      errors,
+      validateField,
       login,
     };
   },
@@ -68,6 +107,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+/* Styles similaires à votre code existant */
 $p: hsl(0, 0%, 96%);
 $s: hsl(27, 90%, 63%);
 
@@ -115,7 +155,6 @@ body {
   .email,
   .password {
     background: hsl(0, 0%, 100%);
-    //box-shadow: 0 0 2em hsl(15, 90%, 80%);
     padding: 1em;
     display: flex;
     flex-direction: column;
@@ -167,5 +206,13 @@ body {
 
 button {
   cursor: pointer;
+}
+.my-2 {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.text-red-800 {
+  color: #9b2c2c !important;
 }
 </style>

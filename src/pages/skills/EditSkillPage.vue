@@ -91,7 +91,10 @@ export default {
       name: Yup.string().required('Name is required'),
       description: Yup.string().required('Description is required'),
       skillType: Yup.string().required('Skill Type is required'),
-      coefficient: Yup.number().required('Coefficient is required').positive('Coefficient must be positive'),
+      coefficient: Yup.number()
+    .typeError('Coefficient must be a number')
+    .required('Coefficient is required')
+    .positive('Coefficient must be positive'),
     });
 
     // Form setup
