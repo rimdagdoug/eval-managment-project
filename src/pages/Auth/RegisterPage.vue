@@ -1,96 +1,174 @@
 <template>
   <header-page></header-page>
   <div class="container">
-      <div class="screen-1">
-        <div class="name-fields">
-          <div class="firstname">
-            <label for="firstname">First Name</label>
-            <div class="sec-2">
-              <ion-icon name="person-outline"></ion-icon>
-              <input v-model="firstname" type="text" name="firstname" placeholder="First Name" required />
-            </div>
-          </div>
-  
-          <div class="lastname">
-            <label for="lastname">Last Name</label>
-            <div class="sec-2">
-              <ion-icon name="person-outline"></ion-icon>
-              <input v-model="lastname" type="text" name="lastname" placeholder="Last Name" required />
-            </div>
-          </div>
-        </div>
-  
-        <div class="email">
-          <label for="email">Email Address</label>
+    <div class="screen-1">
+      <div class="name-fields">
+        <div class="firstname">
+          <label for="firstname">First Name</label>
           <div class="sec-2">
-            <ion-icon name="mail-outline"></ion-icon>
-            <input v-model="email" type="email" name="email" placeholder="Username@gmail.com" required/>
+            <ion-icon name="person-outline"></ion-icon>
+            <input 
+              v-model="firstname" 
+              @blur="validateField('firstname')" 
+              type="text" 
+              name="firstname" 
+              placeholder="First Name" 
+              required 
+            />
+            <p v-if="errors.firstname" class="error">{{ errors.firstname }}</p>
           </div>
         </div>
-  
-        <div class="password">
-          <label for="password">Password</label>
+
+        <div class="lastname">
+          <label for="lastname">Last Name</label>
           <div class="sec-2">
-            <ion-icon name="lock-closed-outline"></ion-icon>
-            <input v-model="password" type="password" name="password" placeholder="············" required/>
-            <ion-icon class="show-hide" name="eye-outline"></ion-icon>
+            <ion-icon name="person-outline"></ion-icon>
+            <input 
+              v-model="lastname" 
+              @blur="validateField('lastname')" 
+              type="text" 
+              name="lastname" 
+              placeholder="Last Name" 
+              required 
+            />
+            <p v-if="errors.lastname" class="error">{{ errors.lastname }}</p>
           </div>
         </div>
-  
-        <div class="role">
-          <label for="role">Role</label>
-          <div class="sec-2">
-            <ion-icon name="briefcase-outline"></ion-icon>
-            <select v-model="role" required>
-              <option v-for="roleType in roleTypes" :key="roleType" :value="roleType">{{ roleType }}</option>
-            </select>
-          </div>
-        </div>
-  
-        <button class="register" @click.prevent="register">Register</button>
       </div>
+
+      <div class="email">
+        <label for="email">Email Address</label>
+        <div class="sec-2">
+          <ion-icon name="mail-outline"></ion-icon>
+          <input 
+            v-model="email" 
+            @blur="validateField('email')" 
+            type="email" 
+            name="email" 
+            placeholder="Username@gmail.com" 
+            required 
+          />
+          <p v-if="errors.email" class="error">{{ errors.email }}</p>
+        </div>
+      </div>
+
+      <div class="password">
+        <label for="password">Password</label>
+        <div class="sec-2">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+          <input 
+            v-model="password" 
+            @blur="validateField('password')" 
+            type="password" 
+            name="password" 
+            placeholder="············" 
+            required 
+          />
+          <ion-icon class="show-hide" name="eye-outline"></ion-icon>
+          <p v-if="errors.password" class="error">{{ errors.password }}</p>
+        </div>
+      </div>
+
+      <div class="role">
+        <label for="role">Role</label>
+        <div class="sec-2">
+          <ion-icon name="briefcase-outline"></ion-icon>
+          <select 
+            v-model="role" 
+            @blur="validateField('role')" 
+            required
+          >
+            <option v-for="roleType in roleTypes" :key="roleType" :value="roleType">{{ roleType }}</option>
+          </select>
+          <p v-if="errors.role" class="error">{{ errors.role }}</p>
+        </div>
+      </div>
+
+      <button class="register" @click.prevent="register">Register</button>
     </div>
-  </template>
-  
-  <script>
-  import HeaderPage from '@/components/HeaderPage.vue';
-  import { useAuthStore } from '@/stores/auth';
-  import { useSkillsStore } from '@/stores/skills';
-  
-  export default {
-    components: { HeaderPage },
-    data() {
-      return {
-        firstname: '',
-        lastname: '',
-        email: '',
-        password: '',
-        role: 'DEVELOPER', // Définir DEVELOPER par défaut
-      };
-    },
-    computed: {
-      roleTypes() {
-        const skillsStore = useSkillsStore();
-        return skillsStore.skillTypes;
-      },
-    },
-    methods: {
-      async register() {
-        const authStore = useAuthStore();
-        try {
-          await authStore.register(this.firstname, this.lastname, this.email, this.password, this.role);
-          this.$router.push('/eval'); 
-        } catch (error) {
-          console.error('Erreur lors de l\'inscription', error);
-        }
-      },
-    },
-    mounted() {
-      const skillsStore = useSkillsStore();
-      skillsStore.fetchSkillTypes(); 
-    },
-  };
-  </script>
+  </div>
+</template>
+
+<script>
+import HeaderPage from '@/components/HeaderPage.vue';
+import { useField, useForm } from 'vee-validate';
+import * as Yup from 'yup';
+import { useAuthStore } from '@/stores/auth';
+import { useSkillsStore } from '@/stores/skills';
+import { useRouter } from 'vue-router';
+
+export default {
+  components: { HeaderPage },
+  setup() {
+    const authStore = useAuthStore();
+    const skillsStore = useSkillsStore();
+    const router = useRouter();
+
+    // Schema de validation avec Yup
+    const validationSchema = Yup.object().shape({
+      firstname: Yup.string().required('First Name is required'),
+      lastname: Yup.string().required('Last Name is required'),
+      email: Yup.string().email('Please enter a valid email address').required('Email is required'),
+      password: Yup.string().required('Password is required'),
+      role: Yup.string().required('Role is required'),
+    });
+
+    // Utilisation de vee-validate pour les champs
+    const { handleSubmit, errors } = useForm({ validationSchema });
+    const { value: firstname, validate: validateFirstname } = useField('firstname');
+    const { value: lastname, validate: validateLastname } = useField('lastname');
+    const { value: email, validate: validateEmail } = useField('email');
+    const { value: password, validate: validatePassword } = useField('password');
+    const { value: role, validate: validateRole } = useField('role');
+
+    // Fonction de validation de champ sur blur
+    const validateField = async (field) => {
+      switch (field) {
+        case 'firstname':
+          await validateFirstname();
+          break;
+        case 'lastname':
+          await validateLastname();
+          break;
+        case 'email':
+          await validateEmail();
+          break;
+        case 'password':
+          await validatePassword();
+          break;
+        case 'role':
+          await validateRole();
+          break;
+      }
+    };
+
+    // Soumission du formulaire
+    const register = handleSubmit(async () => {
+      try {
+        await authStore.register(firstname.value, lastname.value, email.value, password.value, role.value);
+        router.push('/eval');
+      } catch (error) {
+        console.error('Erreur lors de l\'inscription', error);
+      }
+    });
+
+    // Fetch des types de rôles
+    skillsStore.fetchSkillTypes();
+
+    return {
+      firstname,
+      lastname,
+      email,
+      password,
+      role,
+      errors,
+      validateField,
+      register,
+      roleTypes: skillsStore.skillTypes,
+    };
+  },
+};
+</script>
   
   <style scoped lang="scss">
   $p: hsl(0, 0%, 96%);
@@ -210,6 +288,11 @@
   
   button {
     cursor: pointer;
+  }
+  .error {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 0.2em;
   }
   </style>
   
