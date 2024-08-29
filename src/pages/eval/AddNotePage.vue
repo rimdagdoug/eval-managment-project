@@ -3,11 +3,14 @@
   <div class="container">
     <div class="main-body">
       <div class="promo_card">
-        <h1>Evaluation: Enter Notes        </h1>
+        <h2>Evaluation: Enter Notes        </h2>
       </div>
 
       <div class="history_lists">
         <div class="list1">
+          <div class="row">
+            <h4></h4>
+          </div>
           <table>
             <thead>
               <tr>
@@ -76,6 +79,10 @@
         skills: notes.value,
         evaluationId: route.params.id,
       });
+      if(localStorage.getItem('role') == 'RH'){
+        
+        await evalStore.getFinalScore(route.params.id);
+      }
         router.push('/eval'); 
     };
   

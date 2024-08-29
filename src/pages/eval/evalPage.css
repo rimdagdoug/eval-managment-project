@@ -267,3 +267,19 @@
   border: 2px solid  #37fb5e;
 }
 
+.action-buttons {
+  display: flex; 
+  gap: 5px; 
+}
+.add-note-btn {
+  background-color:hsl(28, 30%, 92%);  
+  padding: 6px 12px; 
+  cursor: pointer; 
+  border-radius: 4px; 
+  color: hsl(28, 97%, 50%); 
+  border: 2px solid  hsl(28, 97%, 50%); 
+}
+
+.list1 , table{
+  width :100%;
+}

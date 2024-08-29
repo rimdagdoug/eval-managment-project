@@ -96,6 +96,7 @@ import * as Yup from 'yup';
 import { useAuthStore } from '@/stores/auth';
 import { useSkillsStore } from '@/stores/skills';
 import { useRouter } from 'vue-router';
+import { computed } from 'vue';
 
 export default {
   components: { HeaderPage },
@@ -152,8 +153,8 @@ export default {
       }
     });
 
-    // Fetch des types de rôles
     skillsStore.fetchSkillTypes();
+    const roleTypes = computed(() => skillsStore.skillTypes);
 
     return {
       firstname,
@@ -164,7 +165,7 @@ export default {
       errors,
       validateField,
       register,
-      roleTypes: skillsStore.skillTypes,
+      roleTypes,
     };
   },
 };
