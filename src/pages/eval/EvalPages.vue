@@ -32,7 +32,8 @@
                     </div>
                   </div>
                 </td>
-                <td>{{ evaluation.finalNote }}</td>
+                <td class="center-div">{{ evaluation.finalNote !== null && evaluation.finalNote !== undefined ? evaluation.finalNote.toFixed(2) : '-' }}</td>
+
                 <td>
                   <div class="action-buttons">
                     <button class="add-note-btn" @click="showNote(evaluation.id)">Show Note</button>
@@ -150,38 +151,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.status-container {
-  display: flex;
-  align-items: center;
-}
-
-.progress-bar {
-  height: 25px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  transition: width 0.3s ease, background-color 0.3s ease;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.pagination button {
-  margin: 0 10px;
-  padding: 5px 15px;
-}
-
-.add-note-btn {
-  margin: 5px;
-}
-</style>
