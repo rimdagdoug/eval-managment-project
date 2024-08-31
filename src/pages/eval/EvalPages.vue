@@ -32,12 +32,19 @@
                     </div>
                   </div>
                 </td>
-                <td class="center-div">{{ evaluation.finalNote !== null && evaluation.finalNote !== undefined ? evaluation.finalNote.toFixed(2) : '-' }}</td>
-
+                <td class="center-div">
+                  {{ evaluation.finalNote !== null && evaluation.finalNote !== undefined ? evaluation.finalNote.toFixed(2) : '-' }}
+                </td>
                 <td>
                   <div class="action-buttons">
                     <button class="add-note-btn" @click="showNote(evaluation.id)">Show Note</button>
-                    <button class="add-note-btn" @click="addNote(evaluation.id)">Add Note</button>
+                    <button
+                      v-if="canAddNote(evaluation.status)"
+                      class="add-note-btn"
+                      @click="addNote(evaluation.id)"
+                    >
+                      Add Note
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -71,6 +78,7 @@ export default {
     
     const currentPage = ref(1);
     const itemsPerPage = 5;
+    const role = localStorage.getItem('role'); 
 
     onMounted(async () => {
       await evalStore.fetchEvaluations();
@@ -107,6 +115,19 @@ export default {
       }
     };
 
+    const canAddNote = (status) => {
+      if (role === 'DEVELOPER' && status === 'AWAITING_DEVELOPER_INPUT') {
+        return true;
+      }
+      if (role === 'MANAGER' && status === 'AWAITING_MANAGER_VALIDATION') {
+        return true;
+      }
+      if (role === 'RH' && status === 'AWAITING_HR_APPROVAL') {
+        return true;
+      }
+      return false;
+    };
+
     const getProgressStyle = (status) => {
       if (status === 'AWAITING_DEVELOPER_INPUT') {
         return { width: '100%', backgroundColor: '#fb0101' };
@@ -123,7 +144,7 @@ export default {
     };
 
     const getTextStyle = (status) => {
-      if (status === 'AWAITING_DEVELOPER_INPUT' || status === 'AWAITING_MANAGER_VALIDATION' || status === 'AWAITING_HR_APPROVAL') {
+      if (['AWAITING_DEVELOPER_INPUT', 'AWAITING_MANAGER_VALIDATION', 'AWAITING_HR_APPROVAL'].includes(status)) {
         return { color: 'black' };
       }
       if (status === 'COMPLETED') {
@@ -150,8 +171,8 @@ export default {
       getProgressStyle,
       getTextStyle,
       getStatusText,
+      canAddNote, 
     };
   },
 };
 </script>
-
