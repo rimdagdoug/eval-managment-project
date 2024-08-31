@@ -109,9 +109,12 @@ export default {
 
     const getProgressStyle = (status) => {
       if (status === 'AWAITING_DEVELOPER_INPUT') {
-        return { width: '100%', backgroundColor: '#FFC107' };
+        return { width: '100%', backgroundColor: '#fb0101' };
       }
       if (status === 'AWAITING_MANAGER_VALIDATION') {
+        return { width: '100%', backgroundColor: '#FFC107' };
+      }
+      if (status === 'AWAITING_HR_APPROVAL') {
         return { width: '100%', backgroundColor: '#FF9800' };
       }
       if (status === 'COMPLETED') {
@@ -120,7 +123,7 @@ export default {
     };
 
     const getTextStyle = (status) => {
-      if (status === 'AWAITING_DEVELOPER_INPUT' || status === 'AWAITING_MANAGER_VALIDATION') {
+      if (status === 'AWAITING_DEVELOPER_INPUT' || status === 'AWAITING_MANAGER_VALIDATION' || status === 'AWAITING_HR_APPROVAL') {
         return { color: 'black' };
       }
       if (status === 'COMPLETED') {
@@ -131,6 +134,7 @@ export default {
     const getStatusText = (status) => {
       if (status === 'AWAITING_DEVELOPER_INPUT') return 'Awaiting Dev';
       if (status === 'AWAITING_MANAGER_VALIDATION') return 'Awaiting Manager';
+      if (status === 'AWAITING_HR_APPROVAL') return 'Awaiting HR';
       if (status === 'COMPLETED') return 'Completed';
     };
 
