@@ -3,7 +3,7 @@
   <div class="container">
     <div class="main-body">
       <div class="promo_card">
-        <h2>Evaluation: Enter Notes        </h2>
+        <h2>Evaluation: Enter Notes</h2>
       </div>
 
       <div class="history_lists">
@@ -24,7 +24,15 @@
                 <td>{{ skill.name }}</td>
                 <td>{{ skill.description }}</td>
                 <td>
-                  <input type="number" v-model="notes[index].note" min="0" max="10" placeholder="Note" />
+                  <input
+                    type="number"
+                    v-model="notes[index].note"
+                    placeholder="Note"
+                    @input="validateField(index)"
+                  />
+                  <p v-if="errors[index]" class="my-2 text-red-800">
+                    {{ errors[index] }}
+                  </p>
                 </td>
               </tr>
             </tbody>
@@ -36,99 +44,137 @@
   </div>
 </template>
 
-  
-  <script>
-  import HeaderPage from '@/components/HeaderPage.vue';
-  import { ref, onMounted, watchEffect } from 'vue';
-  import { useEvalStore } from '@/stores/eval';
-  import { useRoute } from 'vue-router';
-  import router from '@/router';
-  
-  export default {
-    components: { HeaderPage },
-    name: 'AddNotePage',
-    setup() {
-      const evalStore = useEvalStore();
-      const route = useRoute();
-      // const router = useRouter();
-      const skills = ref([]);
-      const notes = ref([]);
+<script>
+import HeaderPage from '@/components/HeaderPage.vue';
+import { ref, onMounted, watchEffect } from 'vue';
+import { useEvalStore } from '@/stores/eval';
+import { useRoute } from 'vue-router';
+import router from '@/router';
+import * as Yup from 'yup';
 
-      onMounted(async () => {
-        const id = route.params.id; 
-        await evalStore.fetchEvaluationById(id); 
+export default {
+  components: { HeaderPage },
+  name: 'AddNotePage',
+  setup() {
+    const evalStore = useEvalStore();
+    const route = useRoute();
+    const skills = ref([]);
+    const notes = ref([]);
+    const errors = ref({});
 
-      });
-
-      watchEffect(() => {
-      const evaluation = evalStore.evaluation;
-      if (evaluation ) {
-      skills.value = evaluation.map(item => item.skills); 
-      notes.value = evaluation.map(item => ({
-        skillId: item.skills.id,
-         note: 0, 
-       }));
-
-     }
-
+    onMounted(async () => {
+      const id = route.params.id;
+      await evalStore.fetchEvaluationById(id);
     });
 
+    watchEffect(() => {
+      const evaluation = evalStore.evaluation;
+      if (evaluation) {
+        skills.value = evaluation.map(item => item.skills);
+        notes.value = evaluation.map(item => ({
+          skillId: item.skills.id,
+          note: 0,
+        }));
+      }
+    });
 
-      const submitNotes = async () => {
-        await evalStore.addNote({
+    const validationSchema = Yup.number()
+  .typeError('Note is required') 
+  .min(0.1, 'Note must be at least 0.1')
+  .max(10, 'Note cannot be more than 10');
+
+const validateField = async (index) => {
+  const note = notes.value[index].note;
+  try {
+    await validationSchema.validate(note);
+    errors.value[index] = '';
+  } catch (error) {
+    errors.value[index] = error.message;
+  }
+};
+
+    const submitNotes = async () => {
+      let isValid = true;
+
+      for (let i = 0; i < notes.value.length; i++) {
+        await validateField(i);
+        if (errors.value[i]) {
+          isValid = false;
+        }
+      }
+
+      if (!isValid) {
+        return;
+      }
+
+      await evalStore.addNote({
         skills: notes.value,
         evaluationId: route.params.id,
       });
-      if(localStorage.getItem('role') == 'RH'){
-        
+
+      if (localStorage.getItem('role') === 'RH') {
         await evalStore.getFinalScore(route.params.id);
       }
-        router.push('/eval'); 
+
+      router.push('/eval');
     };
-  
-      return {
-        skills,
-        notes,
-        submitNotes,
-      };
-    },
-  };
-  </script>
-  
-  <style scoped>
-  input[type="number"] {
-    width: 100%; /* Largeur à 100% */
-    padding: 10px; /* Ajoute un peu d'espace à l'intérieur */
-    border: 2px solid #4CAF50; /* Bordure verte */
-    border-radius: 5px; /* Coins arrondis */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre légère */
-    font-size: 16px; /* Taille de police */
-    transition: border-color 0.3s; /* Transition pour le changement de couleur */
-  }
-  
-  input[type="number"]:focus {
-    border-color: #2E7D32; /* Couleur de bordure lors du focus */
-    outline: none; /* Supprime le contour par défaut */
-  }
-  .list1 , table{
-    width :100%;
-  }
-  button {
-    background-color: #4CAF50; /* Couleur de fond verte */
-    color: white; /* Couleur du texte */
-    padding: 10px 20px; /* Espacement interne */
-    border: none; /* Supprime la bordure par défaut */
-    border-radius: 5px; /* Coins arrondis */
-    font-size: 16px; /* Taille de police */
-    cursor: pointer; /* Change le curseur au survol */
-    transition: background-color 0.3s, transform 0.2s; /* Transitions pour le changement de couleur et l'effet de pression */
-  }
-  
-  button:hover {
-    background-color: #45a049; /* Couleur de fond au survol */
-  }
-  
-  button:active {
-    transform: scale(0.95); /* Réduit légèrement la taille lors du clic */
-  }
-  </style>
+
+    return {
+      skills,
+      notes,
+      submitNotes,
+      validateField,
+      errors,
+    };
+  },
+};
+</script>
+
+<style scoped>
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #4caf50;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+input[type="number"]:focus {
+  border-color: #2e7d32;
+  outline: none;
+}
+
+.list1, table {
+  width: 100%;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+.my-2 {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.text-red-800 {
+  color: #fb0101 !important;
+}
+</style>
