@@ -36,10 +36,16 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
     
-    const authRequired = [ '/skills', '/eval'];
+    const authRequired = [ '/skills', '/eval', '/add-skill', '/add-eval', '/show-note/:id', '/add-note/:id', '/register'];
+
+    const role = localStorage.getItem('role');
+
+    const restrictedRoutes = ['/add-skill', '/add-eval', '/register', '/skills'];
 
     if (authRequired.includes(to.path) && !authStore.isAuthenticated) {
         next('/login');
+    } else if (restrictedRoutes.includes(to.path) && (role === 'DEVELOPER' || role === 'MANAGER')) {
+        next('/eval');
     } else {
         next();
     }
