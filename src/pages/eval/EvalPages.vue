@@ -2,8 +2,11 @@
   <header-page></header-page>
   <div class="container">
     <div class="main-body">
-      <div class="promo_card">
-        <button @click="addEvall">Add Eval</button>
+      <div v-if="canAddEval()" class="promo_card">
+        <button 
+        
+        @click="addEvall"
+        >Add Eval</button>
       </div>
 
       <div class="history_lists">
@@ -128,6 +131,13 @@ export default {
       return false;
     };
 
+    const canAddEval = () => {
+      if(role === "RH") {
+        return true
+      }
+      return false;
+    }
+
     const getProgressStyle = (status) => {
       if (status === 'AWAITING_DEVELOPER_INPUT') {
         return { width: '100%', backgroundColor: '#fb0101' };
@@ -171,7 +181,8 @@ export default {
       getProgressStyle,
       getTextStyle,
       getStatusText,
-      canAddNote, 
+      canAddNote,
+      canAddEval, 
     };
   },
 };
